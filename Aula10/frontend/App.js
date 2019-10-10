@@ -1,14 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, FlatList } from 'react-native';
 
-const serverIp = '192.168.100.4'  //coloque o ip do seu pc aqui. o servidor backend deve estar rodando no seu pc para o app funcionar
+const serverIp = '192.168.0.10'  //coloque o ip do seu pc aqui. o servidor backend deve estar rodando no seu pc para o app funcionar
 
 class App extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			marcas: []
+			nome: '',
+			preco: '',
+			produtos: []
 		}
+		this.submit = this.submit.bind(this)
 		this.renderItem = this.renderItem.bind(this)
 	}
 	
@@ -18,21 +21,49 @@ class App extends React.Component {
 				method: 'GET'
 			}
 			
-			const response = await fetch(`https://parallelum.com.br/fipe/api/v1/carros/marcas`, requestInfo);
+			const response = await fetch(`http://${serverIp}:4001/produtos`, requestInfo);
 			
- 			const marcas = await response.json();
+			const produtos = await response.json();
 		
-			this.setState({marcas})
+			this.setState({produtos})
 		} catch(e) {
 			console.log(e)
 		}
 	}
 	
+	async submit() {
+		const produto = {
+			nome: this.state.nome,
+			preco: this.state.preco
+		}
+		
+		const requestInfo = {
+			method: 'POST',
+			body: JSON.stringify(produto),
+			headers: new Headers({
+				'Content-type': 'application/json'
+			})
+		}
+		
+		try{
+			const response = await fetch(`http://${serverIp}:4001/produto`,requestInfo)
+			
+			const produto = await response.json();
+			
+			this.setState({
+				produtos: this.state.produtos.concat([produto]), 
+				nome: '',
+				preco: ''
+			})
+		} catch(e) {
+			console.log(e)
+		}
+	}
 	
-	renderItem(item) {
+	renderItem(item, key) {
 		return (
 			<View style={styles.listItem}>
-				<Text>{item.nome}</Text>
+				<Text>Nome: {item.nome} - Preço: {item.preco}</Text>
 			</View>
 		)
 	}
@@ -41,11 +72,35 @@ class App extends React.Component {
 	render() {
 		return (
 			<View style = {styles.container}>
+				<View>
+					<TextInput style = {styles.input}
+					   underlineColorAndroid = "transparent"
+					   placeholder = "Nome"
+					   placeholderTextColor = "#9a73ef"
+					   autoCapitalize = "none"
+					   value = {this.state.nome}
+					   onChangeText = {(nome) => this.setState({nome})}/>
+					
+					<TextInput style = {styles.input}
+					   underlineColorAndroid = "transparent"
+					   placeholder = "Preço"
+					   placeholderTextColor = "#9a73ef"
+					   autoCapitalize = "none"
+					   value = {this.state.preco}
+					   onChangeText = {(preco) => this.setState({preco})}/>
+					
+					<TouchableOpacity
+					   style = {styles.submitButton}
+					   onPress = {() => this.submit()}>
+					   <Text style = {styles.submitButtonText}> Cadastrar </Text>
+					</TouchableOpacity>
+				</View>
 				<View style={styles.list}>
 					<FlatList
-						data={this.state.marcas}
+						
+						data={this.state.produtos}
 						renderItem={({ item }) => this.renderItem(item)}
-						keyExtractor={item => item.codigo}
+						keyExtractor={item => item._id}
 					/>
 				</View>
 			 </View>
@@ -57,6 +112,21 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingTop: 23
+	},
+	input: {
+		margin: 15,
+		height: 40,
+		borderColor: '#7a42f4',
+		borderWidth: 1
+	},
+	submitButton: {
+		backgroundColor: '#7a42f4',
+		padding: 10,
+		margin: 15,
+		height: 40,
+	},
+	submitButtonText:{
+		color: 'white'
 	},
 	list: {
 		flex: 1

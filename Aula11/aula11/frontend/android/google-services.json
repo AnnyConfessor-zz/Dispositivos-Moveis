@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "363597470535",
+    "firebase_url": "https://teste-mobile-f6341.firebaseio.com",
+    "project_id": "teste-mobile-f6341",
+    "storage_bucket": "teste-mobile-f6341.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363597470535:android:5f1c7c86db383c00988a62",
+        "android_client_info": {
+          "package_name": "com.invertase.rnfirebasestarter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "363597470535-u72aqf4gceq9dfg2gl5kvgid118dqafk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF2GstBHcnkH3-vaspMMmbJ_EyJcrB1WY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "363597470535-u72aqf4gceq9dfg2gl5kvgid118dqafk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
