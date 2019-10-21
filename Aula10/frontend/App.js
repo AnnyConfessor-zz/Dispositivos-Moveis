@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, FlatList } from 'react-native';
 
-const serverIp = '192.168.0.10'  //coloque o ip do seu pc aqui. o servidor backend deve estar rodando no seu pc para o app funcionar
+const serverIp = '192.168.0.38'  //coloque o ip do seu pc aqui. o servidor backend deve estar rodando no seu pc para o app funcionar
 
 class App extends React.Component {
 	constructor(props) {
